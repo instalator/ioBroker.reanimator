@@ -17,7 +17,7 @@ systemDictionary = {
     'warning':                     {
         'en':    'ATTENTION! EVERYTHING YOU DO WITH THE OBJECTS.JSON FILE YOU DO AT YOUR SOLE RISK.',
         'de':    'BEACHTUNG! ALLES, WAS SIE MIT DER OBJECTS.JSON-DATEI TUN, TUN SIE AUF EIGENES RISIKO.',
-        'ru':    'ВНИМАНИЕ! ВСЕ, ЧТО ВЫ ДЕЛАЕТЕ С ФАЙЛОМ OBJECTS.JSON, ВЫ ДЕЛАЕТЕ НА СВОЙ РИСК.',
+        'ru':    'ВНИМАНИЕ! ВСЕ, ЧТО ВЫ ДЕЛАЕТЕ С ФАЙЛОМ OBJECTS.JSON, ВЫ ДЕЛАЕТЕ НА СВОЙ СТРАХ И РИСК.',
         'pt':    'ATENÇÃO! TUDO QUE VOCÊ FAZ COM OS OBJETOS.JSON ARQUIVO QUE VOCÊ FAZ POR SUA CONTA E RISCO.',
         'nl':    'AANDACHT! ALLES WAT U DOET MET DE OBJECTS.JSON-BESTAND DIE U DOET OP EIGEN RISICO.',
         'fr':    'ATTENTION! TOUT CE QUE VOUS FAITES AVEC LE FICHIER OBJECTS.JSON QUE VOUS FAITES À VOS PROPRES RISQUES.',

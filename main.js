@@ -91,7 +91,7 @@ function getListFilter(msg, cb){
     adapter.log.info('start getListFilter');
     const filter = msg.filter;
     const system = msg.system;
-    let list = [];
+    const list = [];
     if (filter){
         for (const key in object) {
             if (!object.hasOwnProperty(key)) continue;

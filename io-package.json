@@ -51,12 +51,12 @@
         "platform": "Javascript/Node.js",
         "main": "main.js",
         "icon": "reanimator.png",
-        "enabled": true,
+        "enabled": false,
         "extIcon": "https://raw.githubusercontent.com/instalator/ioBroker.reanimator/master/admin/reanimator.png",
         "readme": "https://github.com/instalator/ioBroker.reanimator/blob/master/README.md",
         "loglevel": "info",
         "mode": "daemon",
-        "type": "misc-data",
+        "type": "general",
         "compact": true,
         "messagebox": true,
         "materialize": true,
@@ -86,19 +86,9 @@
         ]
     },
     "native": {
-        "option1": true,
-        "option2": "42"
     },
     "objects": [],
     "instanceObjects": [
-        {
-            "_id": "info",
-            "type": "channel",
-            "common": {
-                "name": "Information"
-            },
-            "native": {}
-        },
         {
             "_id": "info.connection",
             "type": "state",
