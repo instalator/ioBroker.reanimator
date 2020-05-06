@@ -4,7 +4,7 @@ const fs = require('fs');
 let filesize = require("filesize");
 
 let adapter, object, dir, dirFile, size, sizeFile;
-const dataFile = 'object_reanimator.json'; //'objects.json'
+const dataFile = 'objects.json'; //'objects.json'
 const nameFileFormatSave = 'reanimator_objects_formatted.json';
 
 function startAdapter(options){
