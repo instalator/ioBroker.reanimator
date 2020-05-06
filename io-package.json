@@ -18,28 +18,28 @@
         },
         "title": "reanimator",
         "titleLang": {
-            "en": "reanimator",
-            "de": "Reanimator",
-            "ru": "реаниматор",
-            "pt": "reanimador",
-            "nl": "reanimator",
-            "fr": "réanimateur",
-            "it": "reanimator",
-            "es": "reanimador",
-            "pl": "reanimator",
-            "zh-cn": "复活器"
+            "en": "Work with objects.json file",
+            "de": "Arbeiten Sie mit der Datei objects.json",
+            "ru": "Работа с файлом objects.json",
+            "pt": "Trabalhar com o arquivo objects.json",
+            "nl": "Werk met het objects.json-bestand",
+            "fr": "Travailler avec le fichier objects.json",
+            "it": "Lavora con il file objects.json",
+            "es": "Trabajar con el archivo objects.json",
+            "pl": "Praca z plikiem objects.json",
+            "zh-cn": "使用objects.json文件"
         },
         "desc": {
-            "en": "reanimator",
-            "de": "Reanimator",
-            "ru": "реаниматор",
-            "pt": "reanimador",
-            "nl": "reanimator",
-            "fr": "réanimateur",
-            "it": "reanimator",
-            "es": "reanimador",
-            "pl": "reanimator",
-            "zh-cn": "复活器"
+            "en": "Work with objects.json file",
+            "de": "Arbeiten Sie mit der Datei objects.json",
+            "ru": "Работа с файлом objects.json",
+            "pt": "Trabalhar com o arquivo objects.json",
+            "nl": "Werk met het objects.json-bestand",
+            "fr": "Travailler avec le fichier objects.json",
+            "it": "Lavora con il file objects.json",
+            "es": "Trabajar con el archivo objects.json",
+            "pl": "Praca z plikiem objects.json",
+            "zh-cn": "使用objects.json文件"
         },
         "authors": [
             "instalator <vvvalt@mail.ru>"

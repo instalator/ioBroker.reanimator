@@ -1,7 +1,7 @@
 {
   "name": "iobroker.reanimator",
   "version": "0.0.1",
-  "description": "reanimator",
+  "description": "Work with objects.json file",
   "author": {
     "name": "instalator",
     "email": "vvvalt@mail.ru"
