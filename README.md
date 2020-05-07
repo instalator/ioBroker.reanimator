@@ -31,7 +31,7 @@ This will look like the contents of the ```reanimator_objects_formatted.json``` 
 
 ## Changelog
 
-### 0.0.1
+### 0.1.0
 * (instalator) initial release
 
 ## License

@@ -34,10 +34,10 @@ $(document).ready(function (){
         }
     });
     getInfo();
-    setTimeout(()=>{
+    setTimeout(() => {
         $('.adapter-body').find('.help-link').remove();
     }, 100);
-    
+
 });
 
 function sockets(){
@@ -148,7 +148,7 @@ function getListFilter(filter){
                 $('#list-table input[type=checkbox]').click(function (){
                     $('#del-btn').removeClass('disabled');
                 });
-                                
+
                 $('#del_all-btn').removeClass('disabled');
                 $('#selectAll').prop('disabled', false);
             } else if (msg.error){
@@ -166,14 +166,14 @@ function escape_html(str){
     else
         str = str.toString();
     const map = {
-        '&': '&amp;',
-        '<': '&lt;',
-        '>': '&gt;',
-        '"': '&quot;',
+        '&':  '&amp;',
+        '<':  '&lt;',
+        '>':  '&gt;',
+        '"':  '&quot;',
         '\'': '&#39;',
-        '/': '&#x2F;',
-        '`': '&#x60;',
-        '=': '&#x3D;',
+        '/':  '&#x2F;',
+        '`':  '&#x60;',
+        '=':  '&#x3D;',
         '\n': '\\n',
         '\t': '\\t',
         '\r': '\\r'
