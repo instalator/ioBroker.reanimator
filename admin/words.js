@@ -99,16 +99,16 @@ systemDictionary = {
         "zh-cn": "物业名称"
     },
     'filesize': {
-        "en": "File size object.json",
-        "de": "Dateigröße object.json",
-        "ru": "Размер файла object.json",
-        "pt": "Tamanho do arquivo object.json",
-        "nl": "Bestandsgrootte object.json",
-        "fr": "Taille du fichier object.json",
-        "it": "Dimensione del file object.json",
-        "es": "Tamaño de archivo object.json",
-        "pl": "Rozmiar pliku object.json",
-        "zh-cn": "文件大小object.json"
+        "en": "File size",
+        "de": "Dateigröße",
+        "ru": "Размер файла",
+        "pt": "Tamanho do arquivo",
+        "nl": "Bestandsgrootte",
+        "fr": "Taille du fichier",
+        "it": "Dimensione del file",
+        "es": "Tamaño de archivo",
+        "pl": "Rozmiar pliku",
+        "zh-cn": "文件大小n"
     },
     
     'del_all': {
@@ -122,5 +122,30 @@ systemDictionary = {
         "es": "Eliminar por filtro",
         "pl": "Usuń według filtra",
         "zh-cn": "按过滤器删除"
+    },
+    'desc': {
+        "en": "The adapter performs all actions with a copy of the file; to write changes to the original file (objects.json), use the Replace original button",
+        "de": "Der Adapter führt alle Aktionen mit einer Kopie der Datei aus. Verwenden Sie die Schaltfläche Original ersetzen, um Änderungen an der Originaldatei (objects.json) zu schreiben",
+        "ru": "Адаптер выполняет все действия с копией файла, чтобы записать изменения в исходный файл (objects.json), используйте кнопку «Заменить оригинал»",
+        "pt": "O adaptador executa todas as ações com uma cópia do arquivo; para gravar alterações no arquivo original (objects.json), use o botão Substituir original",
+        "nl": "De adapter voert alle acties uit met een kopie van het bestand; gebruik de knop Origineel vervangen om wijzigingen in het originele bestand (objects.json) te schrijven",
+        "fr": "L'adaptateur effectue toutes les actions avec une copie du fichier; pour écrire des modifications dans le fichier d'origine (objects.json), utilisez le bouton Remplacer l'original",
+        "it": "L'adattatore esegue tutte le azioni con una copia del file; per scrivere le modifiche al file originale (objects.json), utilizzare il pulsante Sostituisci originale",
+        "es": "El adaptador realiza todas las acciones con una copia del archivo; para escribir cambios en el archivo original (objects.json), use el botón Reemplazar original",
+        "pl": "Adapter wykonuje wszystkie działania z kopią pliku; aby zapisać zmiany w oryginalnym pliku (objects.json), użyj przycisku Zamień oryginalny",
+        "zh-cn": "适配器使用文件的副本执行所有操作；要将更改写入原始文件（objects.json），请使用“替换原始”按钮"
+    },
+    
+    'write': {
+        "en": "Replace original",
+        "de": "Original ersetzen",
+        "ru": "Заменить оригинал",
+        "pt": "Substituir original",
+        "nl": "Origineel vervangen",
+        "fr": "Remplacer l'original",
+        "it": "Sostituisci originale",
+        "es": "Reemplazar original",
+        "pl": "Wymień oryginał",
+        "zh-cn": "更换原件"
     }
 };

@@ -3,10 +3,14 @@ const utils = require('@iobroker/adapter-core');
 const fs = require('fs');
 let filesize = require('filesize');
 
-let adapter, object, dir, dirFile, size, sizeFile;
-const dataFile = 'objects3.json';
-//const dataFile = 'objects.json';
 const nameFileFormatSave = 'reanimator_objects_formatted.json';
+let adapter, object, dir, dirFile, dirCopyFile, size, sizeFile;
+const copyDataFile = 'reanimator_work_objects.json';
+
+//const dataFile = 'objects3.json';
+
+const dataFile = 'objects.json';
+
 
 function startAdapter(options){
     return adapter = utils.adapter(Object.assign({}, options, {
@@ -60,6 +64,11 @@ function startAdapter(options){
                         if (obj.callback) adapter.sendTo(obj.from, obj.command, res, obj.callback);
                     });
                 }
+                if (obj.command === 'writeFile'){
+                    writeFile(obj.message, (res) => {
+                        if (obj.callback) adapter.sendTo(obj.from, obj.command, res, obj.callback);
+                    });
+                }
             }
         }
     }));
@@ -101,11 +110,6 @@ function getInfo(cb){
     cb && cb({'sizeFile': sizeFile});
 }
 
-function getSize(){
-    const stats = fs.statSync(dirFile);
-    sizeFile = filesize(stats.size, {round: 2});
-}
-
 function delProperty(arr, cb){
     adapter.log.info('start delProperty');
     arr = arr.prop;
@@ -113,8 +117,11 @@ function delProperty(arr, cb){
         //console.log(decodeURI(key));
         delete object[decodeURI(key)];
     });
-    saveNotFormat(cb);
-    cb && cb('Выполнено');
+    saveNotFormat(() => {
+        getSize(() => {
+            cb && cb('Выполнено');
+        });
+    });
 }
 
 function delAllFilterProperty(msg, cb){
@@ -125,23 +132,35 @@ function delAllFilterProperty(msg, cb){
             delete object[decodeURI(key)];
         }
     });
-    saveNotFormat(cb);
-    cb && cb('Выполнено');
+    saveNotFormat(() => {
+        getSize(() => {
+            cb && cb('Выполнено');
+        });
+    });
 }
 
 function saveNotFormat(cb){
     adapter.log.info('start saveNotFormat');
     const data = JSON.stringify(object);
-    fs.writeFile(dir + dataFile, data, (err) => {
+    fs.writeFile(dir + copyDataFile, data, (err) => {
         if (err){
-            adapter.log.error('writeFile Error - ' + err);
-            cb && cb('writeFile Error - ' + err);
+            adapter.log.error('saveNotFormat Error - ' + err);
+            cb && cb('saveNotFormat Error - ' + err);
         } else {
             adapter.log.debug('Данные сохранены в файл успешно.');
             cb && cb('Данные сохранены в файл успешно');
         }
     });
 }
+
+function writeFile(msg, cb){
+    adapter.log.info('start writeFile'); //objects.json.bak
+    const data = JSON.stringify(object);
+    fs.writeFileSync(dir + dataFile, data);
+    fs.writeFileSync(dir + 'objects.json.bak', data);
+    cb && cb();
+}
+
 
 function saveFormat(cb){
     adapter.log.info('start saveFormat');
@@ -162,12 +181,26 @@ function main(){
     adapter.log.info('Start reanimator');
     dir = utils.controllerDir + '/' + adapter.systemConfig.dataDir;
     dirFile = dir + dataFile;
+    dirCopyFile = dir + 'reanimator_work_objects.json';
     adapter.log.debug('adapter.config = ' + JSON.stringify(adapter.config));
     if (!fs.existsSync(dir)) fs.mkdirSync(dir);
-    getSize();
     backUpFile(() => {
-        readFile();
-        adapter.setState('info.connection', true, true);
+        copyFile(() => {
+            readFile();
+            adapter.setState('info.connection', true, true);
+        });
+    });
+}
+
+function copyFile(cb){
+    adapter.log.info('start copyFile');
+    fs.copyFile(dirFile, dir + 'reanimator_work_objects.json', (err) => {
+        if (!err){
+            adapter.log.info(dataFile + ' was copied to ' + 'reanimator_work_objects.json');
+            cb && cb();
+        } else {
+            adapter.setState('info.connection', false, true);
+        }
     });
 }
 
@@ -185,15 +218,28 @@ function backUpFile(cb){
 
 function readFile(cb){
     adapter.log.info('start readFile');
-    fs.readFile(dirFile, /*'utf8',*/(err, res) => {
-        if (!err){
-            try {
-                object = JSON.parse(res);
-                adapter.log.info('Read OK');
-            } catch (err) {
-                adapter.log.error('Parse Object.json Error');
+    getSize(() => {
+        fs.readFile(dirCopyFile, (err, res) => {
+            if (!err){
+                try {
+                    object = JSON.parse(res);
+                    adapter.log.info('Read OK');
+                } catch (err) {
+                    adapter.log.error('Parse ' + copyDataFile + ' Error');
+                    adapter.setState('info.connection', false, true);
+                }
+                cb && cb();
+            } else {
                 adapter.setState('info.connection', false, true);
             }
+        });
+    });
+}
+
+function getSize(cb){
+    fs.stat(dirCopyFile, (err, stats) => {
+        if (!err){
+            sizeFile = filesize(stats.size, {round: 2});
             cb && cb();
         } else {
             adapter.setState('info.connection', false, true);

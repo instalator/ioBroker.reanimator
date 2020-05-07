@@ -18,6 +18,9 @@ $(document).ready(function (){
     $('#del-btn').click(function (){
         delObject();
     });
+    $('#write-btn').click(function (){
+        writeFile();
+    });
     $('#del_all-btn').click(function (){
         const filter = $('#filter').val();
         delAllFilterObject(filter);
@@ -31,23 +34,13 @@ $(document).ready(function (){
         }
     });
     getInfo();
+    setTimeout(()=>{
+        $('.adapter-body').find('.help-link').remove();
+    }, 100);
+    
 });
 
 function sockets(){
-    /*socket.emit('subscribe', namespace + '.info.*');
-    socket.emit('subscribeObjects', namespace + '.*');
-    socket.on('stateChange', function (id, state){
-        if (id.substring(0, namespaceLen) !== namespace) return;
-        if (state){
-
-        }
-    });
-    socket.on('objectChange', function (id, obj){
-        if (id.substring(0, namespaceLen) !== namespace) return;
-        if (obj && obj.type === 'device' && obj.common.type !== 'group'){
-
-        }
-    });*/
     socket.emit('getObject', 'system.config', function (err, res){
         if (!err && res && res.common){
             systemLang = res.common.language || systemLang;
@@ -76,6 +69,13 @@ function getInfo(){
     });
 }
 
+function writeFile(){
+    window.parent.$('#connecting').show();
+    sendTo(namespace, 'writeFile', {}, function (msg){
+        window.parent.$('#connecting').hide();
+    });
+}
+
 function delObject(){
     window.parent.$('#connecting').show();
     let arr = [];
@@ -89,6 +89,7 @@ function delObject(){
     sendTo(namespace, 'delProperty', {prop: arr}, function (msg){
         window.parent.$('#connecting').hide();
         const filter = $('#filter').val();
+        getInfo();
         getListFilter(filter);
     });
 }
@@ -98,6 +99,7 @@ function delAllFilterObject(filter){
     sendTo(namespace, 'delAllFilterProperty', {filter: filter}, function (msg){
         window.parent.$('#connecting').hide();
         const filter = $('#filter').val();
+        getInfo();
         getListFilter(filter);
     });
 }
