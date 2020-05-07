@@ -59,6 +59,7 @@
         "type": "general",
         "compact": true,
         "messagebox": true,
+        "stopBeforeUpdate": true,
         "materialize": true,
         "materializeTab": true,
         "adminTab": {

@@ -4,7 +4,7 @@ const fs = require('fs');
 let filesize = require("filesize");
 
 let adapter, object, dir, dirFile, size, sizeFile;
-const dataFile = 'objects.json'; //'objects.json'
+const dataFile = 'objects3.json'; //'objects.json'
 const nameFileFormatSave = 'reanimator_objects_formatted.json';
 
 function startAdapter(options){
@@ -44,6 +44,11 @@ function startAdapter(options){
                         if (obj.callback) adapter.sendTo(obj.from, obj.command, res, obj.callback);
                     });
                 }
+                if (obj.command === 'getListPagination'){
+                    getListPagination(obj.message, (res) => {
+                        if (obj.callback) adapter.sendTo(obj.from, obj.command, res, obj.callback);
+                    });
+                }
                 if (obj.command === 'delProperty'){
                     delProperty(obj.message, (res) => {
                         if (obj.callback) adapter.sendTo(obj.from, obj.command, res, obj.callback);
@@ -52,6 +57,38 @@ function startAdapter(options){
             }
         }
     }));
+}
+
+function getListFilter(msg, cb){
+    adapter.log.info('start getListFilter');
+    const filter = msg.filter;
+    const system = msg.system;
+    const page = parseInt(msg.page, 10);
+    let list = [];
+    if (filter){
+        Object.keys(object).forEach((key)=>{
+            if (system){
+                if (~key.indexOf(filter)){
+                    list.push(key);
+                }
+            } else {
+                if (~key.indexOf(filter) && !~key.indexOf('system.adapter')){
+                    list.push(key);
+                }
+            }
+        });
+        size = list.length;
+        list.sort();
+        if(size > 1000){
+            const from = page * 1000;
+            const to = from + 1000;
+            cb && cb({message: list.slice(from, to), size: size, page});
+        } else {
+            cb && cb({message: list, size: size});
+        }
+    } else {
+        cb && cb({error: 'Не задан фильтр'});
+    }
 }
 
 function getInfo(cb){
@@ -67,7 +104,8 @@ function delProperty(arr, cb){
     adapter.log.info('start delProperty');
     arr = arr.prop;
     arr.forEach((key)=>{
-        delete object[key];
+        //console.log(decodeURI(key));
+        delete object[decodeURI(key)];
     });
     saveNotFormat(cb);
     cb && cb('Выполнено');
@@ -87,32 +125,6 @@ function saveNotFormat(cb){
     });
 }
 
-function getListFilter(msg, cb){
-    adapter.log.info('start getListFilter');
-    const filter = msg.filter;
-    const system = msg.system;
-    const list = [];
-    if (filter){
-        for (const key in object) {
-            if (!object.hasOwnProperty(key)) continue;
-            if (system){
-                if (~key.indexOf(filter)){
-                    list.push(key);
-                }
-            } else {
-                if (~key.indexOf(filter) && !~key.indexOf('system.adapter')){
-                    list.push(key);
-                }
-            }
-        }
-        size = list.length;
-        list.sort();
-        cb && cb({message: list, size: size});
-    } else {
-        cb && cb({error: 'Не задан фильтр'});
-    }
-}
-
 function saveFormat(cb){
     adapter.log.info('start saveFormat');
     const data = JSON.stringify(object, null, 2);
@@ -122,7 +134,7 @@ function saveFormat(cb){
             cb && cb('writeFile Error - ' + err);
         } else {
             adapter.log.debug('Данные сохранены в файл успешно.');
-            cb && cb('Данные сохранены в файл успешно');
+            cb && cb('Данные успешно сохранены в файл iobroker-data/reanimator_objects_formatted.json');
         }
     });
 }
@@ -155,10 +167,10 @@ function backUpFile(cb){
 
 function readFile(cb){
     adapter.log.info('start readFile');
-    fs.readFile(dirFile, (err, data) => {
+    fs.readFile(dirFile, /*'utf8',*/(err, res) => {
         if (!err){
             try {
-                object = JSON.parse(data);
+                object = JSON.parse(res);
                 adapter.log.info('Read OK');
             } catch (err) {
                 adapter.log.error('Parse Object.json Error');

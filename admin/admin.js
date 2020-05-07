@@ -1,25 +1,64 @@
 const namespace = 'reanimator.' + instance, namespaceLen = namespace.length;
-let info;
+let info, isAlive, page = 0;
 
 $(document).ready(function (){
+    sockets();
     $('#save_format-btn').click(function (){
         saveFormat();
     });
     $('#get_list-btn').click(function (){
-        getListFilter();
+        if (!isAlive){
+            showMessage(_('driver is not running'), _('Error'), 'error_outline');
+        } else {
+            const filter = $('#filter').val();
+            getListFilter(filter, page);
+        }
     });
     $('#del-btn').click(function (){
         delObject();
     });
-    $('#selectAll').change(function() {
-        if(this.checked) {
-            $("#list-table input[type=checkbox]").prop('checked', true);
+    $('#selectAll').change(function (){
+        if (this.checked){
+            $('#list-table input[type=checkbox]').prop('checked', true);
         } else {
-            $("#list-table input[type=checkbox]").prop('checked', false);
+            $('#list-table input[type=checkbox]').prop('checked', false);
         }
     });
     getInfo();
 });
+
+function sockets(){
+    /*socket.emit('subscribe', namespace + '.info.*');
+    socket.emit('subscribeObjects', namespace + '.*');
+    socket.on('stateChange', function (id, state){
+        if (id.substring(0, namespaceLen) !== namespace) return;
+        if (state){
+
+        }
+    });
+    socket.on('objectChange', function (id, obj){
+        if (id.substring(0, namespaceLen) !== namespace) return;
+        if (obj && obj.type === 'device' && obj.common.type !== 'group'){
+
+        }
+    });*/
+    socket.emit('getObject', 'system.config', function (err, res){
+        if (!err && res && res.common){
+            systemLang = res.common.language || systemLang;
+            systemConfig = res;
+        }
+    });
+    console.log('isAlive');
+    socket.emit('getState', 'system.adapter.' + namespace + '.alive', function (err, res){
+        if (!err && res){
+            console.log('isAlive = ' + res.val);
+            isAlive = res.val;
+        } else {
+            console.log('err isAlive = ' + res);
+            isAlive = false;
+        }
+    });
+}
 
 function getInfo(){
     sendTo(namespace, 'getInfo', {}, function (msg){
@@ -36,7 +75,7 @@ function delObject(){
     let arr = [];
     $('#list-table input[type=checkbox]').each(function (){
         if (this.checked){
-            arr.push($('#list-table tbody tr').find( 'td#'+this.id).text());
+            arr.push($('#list-table tbody tr').find('td#' + this.id).text());
         }
     });
     sendTo(namespace, 'delProperty', {prop: arr}, function (msg){
@@ -48,26 +87,76 @@ function delObject(){
     });
 }
 
-function getListFilter(){
+function getListFilter(filter, page){
+    console.log('getListFilter');
     window.parent.$('#connecting').show();
-    let filter = $('#filter').val();
     let i = 0;
-    sendTo(namespace, 'getListFilter', {filter: filter, system: $('#system').prop('checked')}, function (msg){
-        window.parent.$('#connecting').hide();
-        if (msg && msg.message){
-            console.log(msg);
-            $('#list-table tbody tr').remove();
-            $('#th-Name').text(' (' + msg.size + ')');
-            msg.message.forEach((key) => {
-                i++;
-                const append = '<tr><td style="text-align: center;"><label><input id = "' + i + '" type="checkbox" class="filled-in"/><span></span></label></td><td id = "' + i + '" >' + key + '</td></tr>';
-                $('#list-table tbody').append(append);
-            });
-            $('#list-table input[type=checkbox]').click(function (){
-                $('#del-btn').removeClass('disabled');
-            });
-            $('#selectAll').prop('disabled', false);
+    sendTo(namespace, 'getListFilter', {filter: filter, system: $('#system').prop('checked'), page: page}, function (msg){
+            window.parent.$('#connecting').hide();
+            if (msg && msg.message){
+                //console.log(msg);
+                const maxPage = parseFloat(msg.size / 1000).toFixed(0) - 1;
+                $('#list-table tbody tr').remove();
+
+                let append = ' (' + msg.message.length + '/' + msg.size + ')     ';
+                if (maxPage > 0){
+                    append = append + '<button id="prev-btn" class="btn waves-effect waves-light btn-small" type="submit" name="prev"><span class="translate"></span>' +
+                        '<i class="material-icons left">keyboard_arrow_left</i>' +
+                        '</button> ' +
+                        ' page:' + msg.page + '/' + maxPage +
+                        ' <button id="next-btn" class="btn waves-effect waves-light btn-small" type="submit" name="next"><span class="translate"></span>' +
+                        '<i class="material-icons left">keyboard_arrow_right</i>' +
+                        '</button>';
+                }
+                $('#th-Name').html(append);
+
+                $('#prev-btn').click(function (){
+                    page--;
+                    if (page < 0) page = maxPage;
+                    getListFilter(filter, page);
+                });
+                $('#next-btn').click(function (){
+                    page++;
+                    if (page > maxPage) page = 0;
+                    getListFilter(filter, page);
+                });
+
+                msg.message.forEach((key) => {
+                    i++;
+                    const append = '<tr><td style="text-align: center;"><label><input id = "' + i + '" type="checkbox" class="filled-in"/><span></span></label></td><td id = "' + i + '" ><pre>' + encodeURI(key) + '</pre></td></tr>';
+                    $('#list-table tbody').append(append);
+                });
+
+                $('#list-table input[type=checkbox]').click(function (){
+                    $('#del-btn').removeClass('disabled');
+                });
+                $('#selectAll').prop('disabled', false);
+            } else if (msg.error){
+                showMessage(_(msg.error), _('Error'), 'error_outline');
+                msg = null;
+            }
         }
+    )
+    ;
+}
+
+function escape_html(str){
+    if ((str === null) || (str === ''))
+        return false;
+    else
+        str = str.toString();
+    const map = {
+        '&': '&amp;',
+        '<': '&lt;',
+        '>': '&gt;',
+        '"': '&quot;',
+        '\'': '&#39;',
+        '/': '&#x2F;',
+        '`': '&#x60;',
+        '=': '&#x3D;'
+    };
+    return str.replace(/[&<>"'`=\/]/g, function (m){
+        return map[m];
     });
 }
 
