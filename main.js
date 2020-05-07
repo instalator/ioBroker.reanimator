@@ -8,9 +8,7 @@ let adapter, object, dir, dirFile, dirCopyFile, size, sizeFile;
 const copyDataFile = 'reanimator_work_objects.json';
 
 //const dataFile = 'objects3.json';
-
 const dataFile = 'objects.json';
-
 
 function startAdapter(options){
     return adapter = utils.adapter(Object.assign({}, options, {
