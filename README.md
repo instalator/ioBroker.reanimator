@@ -15,6 +15,8 @@
 
 Removing excess garbage from an objects.json file
 
+![objects.json](admin/set.png)
+
 All files are saved in a directory ```\ioBroker\iobroker-data\```
 * **reanimator_backup_objects.json** - Copy of the original ```objects.json``` file. Created automatically when the adapter starts
 * **reanimator_work_objects.json** - Copy of the original ```objects.json``` file the adapter works with. Created automatically when the adapter starts
