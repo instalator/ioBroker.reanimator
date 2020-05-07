@@ -51,16 +51,16 @@ systemDictionary = {
         'zh-cn': '过滤'
     },
     'get_list':                    {
-        'en':    'Get List',
-        'de':    'Liste abrufen',
-        'ru':    'Получить список',
-        'pt':    'Obter lista',
-        'nl':    'Lijst ophalen',
-        'fr':    'Obtenir la liste',
-        'it':    'Ottieni elenco',
-        'es':    'Obtener lista',
-        'pl':    'Uzyskaj listę',
-        'zh-cn': '取得清单'
+        "en": "Query",
+        "de": "Abfrage",
+        "ru": "Запрос",
+        "pt": "Inquerir",
+        "nl": "Vraag",
+        "fr": "Requete",
+        "it": "domanda",
+        "es": "Consulta",
+        "pl": "Pytanie",
+        "zh-cn": "询问"
     },
     'del':                         {
         'en':    'Delete selected',
@@ -75,16 +75,16 @@ systemDictionary = {
         'zh-cn': '删除所选'
     },
     'save_format':                 {
-        "en": "Save as",
-        "de": "Speichern als",
-        "ru": "Сохранить как",
-        "pt": "Salvar como",
-        "nl": "Opslaan als",
-        "fr": "Enregistrer sous",
-        "it": "Salva come",
-        "es": "Guardar como",
-        "pl": "Zapisz jako",
-        "zh-cn": "另存为"
+        "en": "Save formatted",
+        "de": "Formatiert speichern",
+        "ru": "Сохранить в формате",
+        "pt": "Salvar formatado",
+        "nl": "Opgemaakt opslaan",
+        "fr": "Enregistrer formaté",
+        "it": "Salva formattato",
+        "es": "Guardar formateado",
+        "pl": "Zapisz sformatowane",
+        "zh-cn": "保存格式化"
     },
     'name':     {
         "en": "PROPERTY NAME",
@@ -109,5 +109,18 @@ systemDictionary = {
         "es": "Tamaño de archivo object.json",
         "pl": "Rozmiar pliku object.json",
         "zh-cn": "文件大小object.json"
+    },
+    
+    'del_all': {
+        "en": "Delete by filter",
+        "de": "Nach Filter löschen",
+        "ru": "Удалить по фильтру",
+        "pt": "Excluir por filtro",
+        "nl": "Verwijderen met filter",
+        "fr": "Supprimer par filtre",
+        "it": "Elimina per filtro",
+        "es": "Eliminar por filtro",
+        "pl": "Usuń według filtra",
+        "zh-cn": "按过滤器删除"
     }
 };

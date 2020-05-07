@@ -17,9 +17,14 @@ $(document).ready(function (){
     $('#del-btn').click(function (){
         delObject();
     });
+    $('#del_all-btn').click(function (){
+        const filter = $('#filter').val();
+        delAllFilterObject(filter);
+    });
     $('#selectAll').change(function (){
         if (this.checked){
             $('#list-table input[type=checkbox]').prop('checked', true);
+            $('#del-btn').removeClass('disabled');
         } else {
             $('#list-table input[type=checkbox]').prop('checked', false);
         }
@@ -81,11 +86,20 @@ function delObject(){
     sendTo(namespace, 'delProperty', {prop: arr}, function (msg){
         window.parent.$('#connecting').hide();
         const filter = $('#filter').val();
-        getListFilter(filter, page);
+        getListFilter(filter);
     });
 }
 
-function getListFilter(filter, page){
+function delAllFilterObject(filter){
+    window.parent.$('#connecting').show();
+    sendTo(namespace, 'delAllFilterProperty', {filter: filter}, function (msg){
+        window.parent.$('#connecting').hide();
+        const filter = $('#filter').val();
+        getListFilter(filter);
+    });
+}
+
+function getListFilter(filter){
     console.log('getListFilter');
     window.parent.$('#connecting').show();
     let i = 0;
@@ -96,13 +110,13 @@ function getListFilter(filter, page){
                 const maxPage = parseFloat(msg.size / 1000).toFixed(0) - 1;
                 $('#list-table tbody tr').remove();
 
-                let append = ' (' + msg.message.length + '/' + msg.size + ')     ';
+                let append = ' (list: ' + msg.message.length + ' of ' + msg.size + ')     ';
                 if (maxPage > 0){
-                    append = append + '<button id="prev-btn" class="btn waves-effect waves-light btn-small" type="submit" name="prev"><span class="translate"></span>' +
+                    append = append + '<button id="prev-btn" class="waves-effect waves-light btn-flat" type="submit" name="prev"><span class="translate"></span>' +
                         '<i class="material-icons left">keyboard_arrow_left</i>' +
                         '</button> ' +
-                        ' page:' + msg.page + '/' + maxPage +
-                        ' <button id="next-btn" class="btn waves-effect waves-light btn-small" type="submit" name="next"><span class="translate"></span>' +
+                        ' page: ' + msg.page + ' of ' + maxPage +
+                        ' <button id="next-btn" class="waves-effect waves-light btn-flat" type="submit" name="next"><span class="translate"></span>' +
                         '<i class="material-icons left">keyboard_arrow_right</i>' +
                         '</button>';
                 }
@@ -111,12 +125,12 @@ function getListFilter(filter, page){
                 $('#prev-btn').click(function (){
                     page--;
                     if (page < 0) page = maxPage;
-                    getListFilter(filter, page);
+                    getListFilter(filter);
                 });
                 $('#next-btn').click(function (){
                     page++;
                     if (page > maxPage) page = 0;
-                    getListFilter(filter, page);
+                    getListFilter(filter);
                 });
 
                 msg.message.forEach((key) => {
@@ -128,6 +142,8 @@ function getListFilter(filter, page){
                 $('#list-table input[type=checkbox]').click(function (){
                     $('#del-btn').removeClass('disabled');
                 });
+                                
+                $('#del_all-btn').removeClass('disabled');
                 $('#selectAll').prop('disabled', false);
             } else if (msg.error){
                 showMessage(_(msg.error), _('Error'), 'error_outline');

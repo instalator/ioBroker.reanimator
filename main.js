@@ -1,7 +1,7 @@
 'use strict';
 const utils = require('@iobroker/adapter-core');
 const fs = require('fs');
-let filesize = require("filesize");
+let filesize = require('filesize');
 
 let adapter, object, dir, dirFile, size, sizeFile;
 //const dataFile = 'objects3.json';
@@ -55,6 +55,11 @@ function startAdapter(options){
                         if (obj.callback) adapter.sendTo(obj.from, obj.command, res, obj.callback);
                     });
                 }
+                if (obj.command === 'delAllFilterProperty'){
+                    delAllFilterProperty(obj.message, (res) => {
+                        if (obj.callback) adapter.sendTo(obj.from, obj.command, res, obj.callback);
+                    });
+                }
             }
         }
     }));
@@ -67,7 +72,7 @@ function getListFilter(msg, cb){
     const page = parseInt(msg.page, 10);
     let list = [];
     if (filter){
-        Object.keys(object).forEach((key)=>{
+        Object.keys(object).forEach((key) => {
             if (system){
                 if (~key.indexOf(filter)){
                     list.push(key);
@@ -80,7 +85,7 @@ function getListFilter(msg, cb){
         });
         size = list.length;
         list.sort();
-        if(size > 1000){
+        if (size > 1000){
             const from = page * 1000;
             const to = from + 1000;
             cb && cb({message: list.slice(from, to), size: size, page});
@@ -104,9 +109,21 @@ function getSize(){
 function delProperty(arr, cb){
     adapter.log.info('start delProperty');
     arr = arr.prop;
-    arr.forEach((key)=>{
+    arr.forEach((key) => {
         //console.log(decodeURI(key));
         delete object[decodeURI(key)];
+    });
+    saveNotFormat(cb);
+    cb && cb('Выполнено');
+}
+
+function delAllFilterProperty(msg, cb){
+    adapter.log.info('start delAllFilterProperty');
+    const filter = msg.filter;
+    Object.keys(object).forEach((key) => {
+        if (~key.indexOf(filter)){
+            delete object[decodeURI(key)];
+        }
     });
     saveNotFormat(cb);
     cb && cb('Выполнено');
@@ -148,7 +165,7 @@ function main(){
     adapter.log.debug('adapter.config = ' + JSON.stringify(adapter.config));
     if (!fs.existsSync(dir)) fs.mkdirSync(dir);
     getSize();
-    backUpFile(()=>{
+    backUpFile(() => {
         readFile();
         adapter.setState('info.connection', true, true);
     });
