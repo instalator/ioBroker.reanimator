@@ -1,5 +1,5 @@
 const namespace = 'reanimator.' + instance, namespaceLen = namespace.length;
-let info, isAlive, page = 0;
+let info, isAlive, page = 0, list = [];
 
 $(document).ready(function (){
     sockets();
@@ -11,7 +11,8 @@ $(document).ready(function (){
             showMessage(_('driver is not running'), _('Error'), 'error_outline');
         } else {
             const filter = $('#filter').val();
-            getListFilter(filter, page);
+            page = 0;
+            getListFilter(filter);
         }
     });
     $('#del-btn').click(function (){
@@ -80,7 +81,9 @@ function delObject(){
     let arr = [];
     $('#list-table input[type=checkbox]').each(function (){
         if (this.checked){
-            arr.push($('#list-table tbody tr').find('td#' + this.id).text());
+            console.log('this.id - ' + this.id - 1);
+            arr.push(list[this.id - 1]);
+            //arr.push($('#list-table tbody tr').find('td#' + this.id).text());
         }
     });
     sendTo(namespace, 'delProperty', {prop: arr}, function (msg){
@@ -107,6 +110,7 @@ function getListFilter(filter){
             window.parent.$('#connecting').hide();
             if (msg && msg.message){
                 //console.log(msg);
+                list = msg.message;
                 const maxPage = parseFloat(msg.size / 1000).toFixed(0) - 1;
                 $('#list-table tbody tr').remove();
 
@@ -135,7 +139,7 @@ function getListFilter(filter){
 
                 msg.message.forEach((key) => {
                     i++;
-                    const append = '<tr><td style="text-align: center;"><label><input id = "' + i + '" type="checkbox" class="filled-in"/><span></span></label></td><td id = "' + i + '" ><pre>' + encodeURI(key) + '</pre></td></tr>';
+                    const append = '<tr><td style="text-align: center;"><label><input id = "' + i + '" type="checkbox" class="filled-in"/><span></span></label></td><td id = "' + i + '" ><pre>' + escape_html(key) + '</pre></td></tr>';
                     $('#list-table tbody').append(append);
                 });
 
@@ -167,9 +171,12 @@ function escape_html(str){
         '\'': '&#39;',
         '/': '&#x2F;',
         '`': '&#x60;',
-        '=': '&#x3D;'
+        '=': '&#x3D;',
+        '\n': '\\n',
+        '\t': '\\t',
+        '\r': '\\r'
     };
-    return str.replace(/[&<>"'`=\/]/g, function (m){
+    return str.replace(/[&<>"'`=\/\n\t\r]/g, function (m){
         return map[m];
     });
 }
