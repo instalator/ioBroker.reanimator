@@ -80,10 +80,8 @@ function delObject(){
     });
     sendTo(namespace, 'delProperty', {prop: arr}, function (msg){
         window.parent.$('#connecting').hide();
-        if (msg){
-            showMessage(_(msg), _('Info'), 'error_outline');
-            msg = null;
-        }
+        const filter = $('#filter').val();
+        getListFilter(filter, page);
     });
 }
 
