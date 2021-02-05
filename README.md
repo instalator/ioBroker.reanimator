@@ -9,6 +9,7 @@
 
 [![NPM](https://nodei.co/npm/iobroker.reanimator.png?downloads=true)](https://nodei.co/npm/iobroker.reanimator/)
 
+[![Donate](https://img.shields.io/badge/donate-YooMoney-green)](https://sobe.ru/na/instalator)
 [![Donate](https://img.shields.io/badge/Donate-PayPal-green.svg)](https://www.paypal.com/cgi-bin/webscr?cmd=_s-xclick&hosted_button_id=PFUALWTR2CTPY)
 
 ## reanimator adapter for ioBroker
