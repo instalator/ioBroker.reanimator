@@ -1,0 +1,94 @@
+<html>
+<head>
+    <link rel="stylesheet" type="text/css" href="../../css/adapter.css"/>
+    <link rel="stylesheet" type="text/css" href="../../lib/css/materialize.css">
+    <script type="text/javascript" src="../../lib/js/jquery-3.2.1.min.js"></script>
+    <script type="text/javascript" src="../../socket.io/socket.io.js"></script>
+    <script type="text/javascript" src="../../js/translate.js"></script>
+    <script type="text/javascript" src="../../lib/js/materialize.js"></script>
+    <script type="text/javascript" src="../../js/adapter-settings.js"></script>
+    <link rel="stylesheet" type="text/css" href="style.css"/>
+    <script type="text/javascript" src="words.js"></script>
+    <script type="text/javascript" src="admin.js"></script>
+</head>
+
+<body>
+<div class="m adapter-container">
+    <div class="row">
+        <div class="col s12 m12 l12">
+            <img src="reanimator.png" class="logo">
+            <span style="color: #dc0003;position: absolute;margin-top: 1em;" class="translate">warning</span>
+            <span style="color: #2b2b2b;position: absolute;margin-top: 3em;" class="translate">desc</span>
+        </div>
+    </div>
+
+    <div class="row" style="margin: 0 0 0 0 !important;">
+        <div class="col input-field">
+            &nbsp;&nbsp;
+            <button id="del-btn" class="waves-effect waves-light btn-small red disabled" type="submit" name="del"><span class="translate">del</span>
+                <i class="material-icons left">delete_sweep</i>
+            </button>
+            &nbsp;&nbsp;
+            <button id="del_all-btn" class="waves-effect waves-light btn-small red disabled" type="submit" name="del_all"><span class="translate">del_all</span>
+                <i class="material-icons left">delete_forever</i>
+            </button>
+            &nbsp;&nbsp;
+            <button id="write-btn" class="waves-effect waves-light btn-small" type="submit" name="write"><span class="translate">write</span>
+                <i class="material-icons left">delete_forever</i>
+            </button>
+            &nbsp;&nbsp;
+            <button id="save_format-btn" class="waves-effect waves-light btn-small" type="submit" name="save_format"><span class="translate">save_format</span>
+                <i class="material-icons left">format_list_bulleted</i>
+            </button>
+        </div>
+    </div>
+
+    <div id="main-div" class="row" style="margin: 0 0 0 0 !important;">
+        <div class="col s12">
+            <div class="col s3 input-field">
+                <input type="text" class="value" id="filter"/>
+                <label for="filter" class="translate">filter</label>
+            </div>
+            <div class="col input-field">
+                <button id="get_list-btn" class="waves-effect waves-light btn-small" type="submit" name="get_list"><span class="translate">get_list</span>
+                    <i class="material-icons left">playlist_add</i>
+                </button>
+            </div>
+            <div class="col s2 input-field">
+                <input type="checkbox" class="value" id="states"/>
+                <label for="states" class="translate">states</label>
+            </div>
+            <div class="col s2 input-field">
+                <input type="checkbox" class="value" id="system"/>
+                <label for="system" class="translate">system</label>
+            </div>
+
+            <!--            <span style="text-align: end;" class="translate">filesize</span><span id="filesize"></span>-->
+        </div>
+    </div>
+
+    <div class="row">
+        <div class="col s12">
+            <div id="list-div">
+                <table id="list-table" class="highlight">
+                    <thead>
+                    <tr>
+                        <th style="text-align: center;">
+                            <input type="checkbox" class="value" id="selectAll" disabled="disabled"/>
+                            <label for="selectAll" class="translate"></label>
+                        </th>
+                        <th><span class="translate">name</span><span id="th-Name"></span></th>
+                        <th><span class="translate">filesize</span><span id="filesize"></span></th>
+                    </tr>
+                    </thead>
+                    <tbody>
+                    </tbody>
+                </table>
+            </div>
+        </div>
+    </div>
+</div>
+
+</body>
+
+</html>

@@ -1,0 +1,107 @@
+{
+  "common": {
+    "name": "reanimator",
+    "version": "0.1.0",
+    "news": {
+      "0.1.0": {
+        "en": "Beta release",
+        "de": "Beta-Version",
+        "ru": "Бета-версия",
+        "pt": "Versão beta",
+        "nl": "Beta-release",
+        "fr": "Sortie bêta",
+        "it": "Versione beta",
+        "es": "Lanzamiento Beta",
+        "pl": "Wersja beta",
+        "zh-cn": "测试版"
+      }
+    },
+    "title": "reanimator",
+    "titleLang": {
+      "en": "Work with objects.json file",
+      "de": "Arbeiten Sie mit der Datei objects.json",
+      "ru": "Работа с файлом objects.json",
+      "pt": "Trabalhar com o arquivo objects.json",
+      "nl": "Werk met het objects.json-bestand",
+      "fr": "Travailler avec le fichier objects.json",
+      "it": "Lavora con il file objects.json",
+      "es": "Trabajar con el archivo objects.json",
+      "pl": "Praca z plikiem objects.json",
+      "zh-cn": "使用objects.json文件"
+    },
+    "desc": {
+      "en": "Work with objects.json file",
+      "de": "Arbeiten Sie mit der Datei objects.json",
+      "ru": "Работа с файлом objects.json",
+      "pt": "Trabalhar com o arquivo objects.json",
+      "nl": "Werk met het objects.json-bestand",
+      "fr": "Travailler avec le fichier objects.json",
+      "it": "Lavora con il file objects.json",
+      "es": "Trabajar con el archivo objects.json",
+      "pl": "Praca z plikiem objects.json",
+      "zh-cn": "使用objects.json文件"
+    },
+    "authors": [
+      "instalator <vvvalt@mail.ru>"
+    ],
+    "keywords": [
+      "reanimator"
+    ],
+    "license": "MIT",
+    "platform": "Javascript/Node.js",
+    "main": "main.js",
+    "icon": "reanimator.png",
+    "enabled": false,
+    "extIcon": "https://raw.githubusercontent.com/instalator/ioBroker.reanimator/master/admin/reanimator.png",
+    "readme": "https://github.com/instalator/ioBroker.reanimator/blob/master/README.md",
+    "loglevel": "info",
+    "mode": "daemon",
+    "type": "general",
+    "compact": true,
+    "messagebox": true,
+    "stopBeforeUpdate": true,
+    "materialize": true,
+    "materializeTab": true,
+    "adminTab": {
+      "singleton": true,
+      "name": {
+        "en": "reanimator",
+        "de": "Reanimator",
+        "ru": "реаниматор",
+        "pt": "reanimador",
+        "nl": "reanimator",
+        "fr": "réanimateur",
+        "it": "reanimator",
+        "es": "reanimador",
+        "pl": "reanimator",
+        "zh-cn": "复活器"
+      },
+      "link": "",
+      "fa-icon": "info"
+    },
+    "supportCustoms": true,
+    "dependencies": [
+      {
+        "js-controller": ">=1.4.2"
+      }
+    ]
+  },
+  "native": {
+  },
+  "objects": [],
+  "instanceObjects": [
+    {
+      "_id": "info.connection",
+      "type": "state",
+      "common": {
+        "role": "indicator.connected",
+        "name": "Device or service connected",
+        "type": "boolean",
+        "read": true,
+        "write": false,
+        "def": false
+      },
+      "native": {}
+    }
+  ]
+}
